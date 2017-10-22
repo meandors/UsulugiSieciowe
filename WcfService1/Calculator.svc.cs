@@ -29,7 +29,15 @@ namespace WcfService1
 
         public double Div(double number1, double number2)
         {
-            return number1 / number2;
+            try
+            {
+                return number1 / number2;
+            }
+            catch (DivideByZeroException e)
+            {
+                throw new FaultException(e.ToString());
+            }
+            
         }
 
         public Complex ComplexAdd(Complex n1, Complex n2)
@@ -49,10 +57,16 @@ namespace WcfService1
 
         public Complex ComplexDiv(Complex n1, Complex n2)
         {
+            if (n1.Real.Equals(0))
+            {
+                throw new FaultException("Liczba 0");
+            }
             double divider = n2.Real * n2.Real - n2.Imag * n2.Imag * (-1);
             double real = n1.Real * n2.Real + n1.Imag * n2.Imag;
             double imag = n1.Real * n2.Imag * (-1) + n1.Imag * n2.Real;
+
             return new Complex(real / divider,  imag/ divider);
+
         }
     }
 }

@@ -37,7 +37,7 @@ namespace WcfService1
         Complex ComplexDiv(Complex n1, Complex n2);
     }
 
-    [DataContract(Name ="Complex")]
+    [DataContract]
     public class Complex
     {
 

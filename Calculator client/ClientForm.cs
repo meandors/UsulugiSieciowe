@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Calculator_client.CalculatorServiceReference;
+using System.ServiceModel;
 
 namespace Calculator_client
 {
@@ -27,7 +28,14 @@ namespace Calculator_client
 
             tbResult.Text = client.Add(a, b).ToString();
 
-            client.Close();
+            try
+            {
+                client.Close();
+            }
+            catch (Exception)
+            {
+                client.Abort();
+            }
         }
 
         private void bSub_Click(object sender, EventArgs e)
@@ -39,7 +47,14 @@ namespace Calculator_client
 
             tbResult.Text = client.Sub(a, b).ToString();
 
-            client.Close();
+            try
+            {
+                client.Close();
+            }
+            catch (Exception)
+            {
+                client.Abort();
+            }
         }
 
         private void bMulti_Click(object sender, EventArgs e)
@@ -51,7 +66,14 @@ namespace Calculator_client
 
             tbResult.Text = client.Mult(a, b).ToString();
 
-            client.Close();
+            try
+            {
+                client.Close();
+            }
+            catch (Exception)
+            {
+                client.Abort();
+            }
         }
 
         private void bDiv_Click(object sender, EventArgs e)
@@ -61,9 +83,26 @@ namespace Calculator_client
             double.TryParse(tbA.Text, out a);
             double.TryParse(tbB.Text, out b);
 
-            tbResult.Text = client.Div(a, b).ToString();
+            try
+            {
+                client.Open();
+                double res = client.Div(a, b);
+                tbResult.Text = res.ToString();
+            }
+            catch (FaultException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+           
 
-            client.Close();
+            try
+            {
+                client.Close();
+            }
+            catch (Exception)
+            {
+                client.Abort();
+            }
         }
 
         private void bAddComplex_Click(object sender, EventArgs e)
@@ -85,7 +124,14 @@ namespace Calculator_client
 
             tbResultComplex.Text = result._real + " + i" + result._imag;
 
-            client.Close();
+            try
+            {
+                client.Close();
+            }
+            catch (Exception)
+            {
+                client.Abort();
+            }
         }
 
         private void bSubComplex_Click(object sender, EventArgs e)
@@ -107,7 +153,14 @@ namespace Calculator_client
 
             tbResultComplex.Text = result._real + " + i" + result._imag;
 
-            client.Close();
+            try
+            {
+                client.Close();
+            }
+            catch (Exception)
+            {
+                client.Abort();
+            }
         }
 
         private void bMultiComplex_Click(object sender, EventArgs e)
@@ -129,7 +182,14 @@ namespace Calculator_client
 
             tbResultComplex.Text = result._real + " + i" + result._imag;
 
-            client.Close();
+            try
+            {
+                client.Close();
+            }
+            catch (Exception)
+            {
+                client.Abort();
+            }
         }
 
         private void bDivComplex_Click(object sender, EventArgs e)
@@ -147,11 +207,22 @@ namespace Calculator_client
             a._imag = aImagine;
             b._real = bReal;
             b._imag = bImagine;
-            Complex result = client.ComplexDiv(a, b);
 
-            tbResultComplex.Text = result._real + " + i" + result._imag;
-
-            client.Close();
+            try
+            {
+                Complex result = client.ComplexDiv(a, b);
+                tbResultComplex.Text = result._real + " + i" + result._imag;
+                client.Close();
+            }
+            catch (FaultException ex)
+            {
+                MessageBox.Show(ex.Message);
+                client.Abort();
+            }
+            catch (Exception)
+            {
+                client.Abort();
+            }
         }
     }
 }
