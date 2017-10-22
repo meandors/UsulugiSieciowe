@@ -11,9 +11,9 @@ using Calculator_client.CalculatorServiceReference;
 
 namespace Calculator_client
 {
-    public partial class Form1 : Form
+    public partial class ClientForm : Form
     {
-        public Form1()
+        public ClientForm()
         {
             InitializeComponent();
         }
