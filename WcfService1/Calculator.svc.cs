@@ -59,12 +59,12 @@ namespace WcfService1
         {
             if (n1.Real.Equals(0))
             {
-                throw new FaultException("Liczba 0");
+                throw new FaultException("Liczba rzeczywista nie może byc zerem!");
             }
             double divider = n2.Real * n2.Real - n2.Imag * n2.Imag * (-1);
             double real = n1.Real * n2.Real + n1.Imag * n2.Imag;
             double imag = n1.Real * n2.Imag * (-1) + n1.Imag * n2.Real;
-
+            
             return new Complex(real / divider,  imag/ divider);
 
         }
